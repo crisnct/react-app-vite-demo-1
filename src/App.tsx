@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
-import ListGroup from "./components/ListGroup.tsx";
-import Alert from "./components/Alert.tsx";
-import PushButton from "./components/Button.tsx";
+import ListGroup from "./components/list/ListGroup.tsx";
+import Alert from "./components/list/Alert.tsx";
+import PushButton from "./components/list/Button.tsx";
+import "./index.css";
+import TaskForm from "./components/cards/TaskForm.tsx";
+import TaskStatusGroup from "./components/cards/TaskStatusGroup.tsx";
+import type { TaskData } from "./components/cards/TaskData.tsx";
 
 function App() {
   let countries = ["UK", "Romania", "Germany"];
@@ -14,8 +18,56 @@ function App() {
   };
   const [showAlert, setShowAlert] = useState(false);
 
+  const oldTasks = localStorage.getItem("tasks");
+  const [tasks, setTasks] = useState<TaskData[]>(
+    JSON.parse(oldTasks || "[]") || [],
+  );
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+  console.log("Current tasks:", tasks);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const handleDelete = (index: number) => {
+    console.log(`Delete task at index: ${index}`);
+    setTasks(tasks.filter((task, i) => i !== index));
+  };
+
+  const onDrop = (status: string, index: number) => {
+    console.log(
+      `${activeCard} is going to be placed into ${status} and ${index}`,
+    );
+    if (activeCard === null || activeCard === undefined) {
+      return;
+    }
+    const taskToMove = tasks[activeCard];
+    if (!taskToMove) {
+      return;
+    }
+
+    const updatedTasks = tasks.filter((_, pos) => pos !== activeCard);
+    const insertionIndex = Math.max(0, Math.min(index, updatedTasks.length));
+
+    updatedTasks.splice(insertionIndex, 0, {
+      ...taskToMove,
+      status,
+    });
+
+    setTasks(updatedTasks);
+    setActiveCard(null);
+  };
+
   return (
-    <div>
+    <div className="app">
+      <TaskForm setTasks={setTasks} />
+      <TaskStatusGroup
+        tasks={tasks}
+        handleDelete={handleDelete}
+        setActiveCard={setActiveCard}
+        onDrop={onDrop}
+      />
+
       {showAlert && (
         <Alert onClose={() => setShowAlert(false)}>A simple alert</Alert>
       )}

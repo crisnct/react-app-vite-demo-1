@@ -1,0 +1,16 @@
+.tag{
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #24d10d;
+    color:#000000;
+    border: 1px solid #dfe3e6;
+    border-radius: 3px;
+    padding: 2px 8px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #000000;
+    color: #ffffff;
+}

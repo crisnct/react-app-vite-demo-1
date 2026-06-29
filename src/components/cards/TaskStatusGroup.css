@@ -1,0 +1,17 @@
+.task_status_group {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 30px 8%;
+  align-items: start;
+}
+
+.task_column{
+  background-color: #f0d5d5;
+}
+
+.task_bottom_line{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
