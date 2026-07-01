@@ -7,6 +7,7 @@ A React + TypeScript + Vite demo app that combines:
 - localStorage persistence,
 - and a few reusable UI examples (`ListGroup`, `Alert`, `Button`).
 
+
 ## Tech Stack
 
 - React 19
