@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("./assets/fonts/Montserrat.woff2");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("./assets/fonts/Roboto.woff2");
+}
+
+.movies{
+    display: grid;
+    grid-template-rows: 80px auto;
+    font-family: "Montserrat", sans-serif;
+    
+}
+

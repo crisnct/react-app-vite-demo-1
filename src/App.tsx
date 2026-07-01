@@ -9,6 +9,7 @@ import "./index.css";
 import TaskForm from "./components/cards/TaskForm.tsx";
 import TaskStatusGroup from "./components/cards/TaskStatusGroup.tsx";
 import type { TaskData } from "./components/cards/TaskData.tsx";
+import Movies from "./components/movies/Movies.tsx";
 
 function App() {
   let countries = ["UK", "Romania", "Germany"];
@@ -60,6 +61,8 @@ function App() {
 
   return (
     <div className="app">
+      <Movies></Movies>
+
       <TaskForm setTasks={setTasks} />
       <TaskStatusGroup
         tasks={tasks}
