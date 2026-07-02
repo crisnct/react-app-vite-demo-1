@@ -32,6 +32,26 @@ html {
   transition: all 0.5s ease-in-out;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+}
+
+.app__movies {
+  width: 100%;
+  min-height: 180vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__task-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .allign_center {
   display: flex;
   align-items: center;

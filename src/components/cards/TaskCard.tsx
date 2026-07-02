@@ -1,4 +1,3 @@
-import React from "react";
 import "./TaskCard.css";
 import Tag from "./Tag";
 import { TrashFill } from "react-bootstrap-icons";

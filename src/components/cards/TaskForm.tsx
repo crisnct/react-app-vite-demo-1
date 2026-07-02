@@ -1,16 +1,28 @@
-import React from "react";
+import {
+  useState,
+  type ChangeEvent,
+  type Dispatch,
+  type FormEvent,
+  type SetStateAction,
+} from "react";
 import "./TaskForm.css";
 import Tag from "./Tag";
 import type { TaskData } from "./TaskData";
 
-const TaskForm = ({ setTasks }) => {
-  const [taskData, setTaskData] = React.useState<TaskData>({
+interface Props {
+  setTasks: Dispatch<SetStateAction<TaskData[]>>;
+}
+
+const TaskForm = ({ setTasks }: Props) => {
+  const [taskData, setTaskData] = useState<TaskData>({
     taskName: "",
     status: "todo",
     tags: [],
   });
 
-  const handleChangeData = (e) => {
+  const handleChangeData = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setTaskData((prevData) => ({
       ...prevData,
@@ -18,7 +30,7 @@ const TaskForm = ({ setTasks }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTasks((prevTasks) => [...prevTasks, taskData]);
     setTaskData({

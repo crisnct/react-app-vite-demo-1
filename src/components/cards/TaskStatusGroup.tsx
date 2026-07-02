@@ -1,4 +1,3 @@
-import React from "react";
 import "./TaskStatusGroup.css";
 import { Clipboard, Gear, CheckCircleFill } from "react-bootstrap-icons";
 import TaskColumn from "./TaskColumn";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import "./MovieList.css";
 import MovieCard from "./MovieCard";
 import FilterGroup from "../FilterGroup/FilterGroup";
@@ -10,39 +10,50 @@ interface Props {
   emoji: string;
 }
 
+interface Movie {
+  id: number;
+  title: string;
+  release_date: string;
+  vote_average: number;
+  overview: string;
+  poster_path: string;
+}
+
 const MovieList = ({ type, title, emoji }: Props) => {
-  const [moviesDetails, setMoviesDetails] = React.useState([]);
+  const [moviesDetails, setMoviesDetails] = useState<Movie[]>([]);
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-  const [minRating, setMinRating] = React.useState(0);
-  const [sort, setSort] = React.useState({
+  const [minRating, setMinRating] = useState(0);
+  const [sort, setSort] = useState({
     by: "default",
     order: "asc",
   });
 
-  const fetchMovies = async () => {
-    try {
-      if (!apiKey) {
-        console.warn("VITE_TMDB_API_KEY is not set. Requests may fail.");
-      }
-
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${type}?language=en-US&api_key=${apiKey}&page=1`,
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setMoviesDetails(data.results);
-      console.log("RESPONSE:", data.results);
-    } catch (error) {
-      console.error("Failed to fetch movies:", error);
-    }
-  };
   useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        if (!apiKey) {
+          console.warn("VITE_TMDB_API_KEY is not set. Requests may fail.");
+        }
+
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${type}?language=en-US&api_key=${apiKey}&page=1`,
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setMoviesDetails(data.results as Movie[]);
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+      }
+    };
+
+    setMinRating(0);
+    setSort({ by: "default", order: "asc" });
     fetchMovies();
-  }, []);
+  }, [type, apiKey]);
 
   const handleRatingFilter = (rating: number) => {
     if (rating === minRating) {
@@ -51,14 +62,14 @@ const MovieList = ({ type, title, emoji }: Props) => {
       setMinRating(rating);
     }
   };
-  const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSort = (event: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     setSort((prevSort) => ({
       ...prevSort,
       [name]: value,
     }));
   };
-  const visibleMovies = React.useMemo(() => {
+  const visibleMovies = useMemo(() => {
     const filtered = moviesDetails.filter(
       (movie: any) => movie.vote_average >= minRating,
     );

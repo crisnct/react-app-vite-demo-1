@@ -1,9 +1,9 @@
-import React from "react";
 import "./Navbar.css";
 import Fire from "../../../assets/fire.png";
 import Star from "../../../assets/glowing-star.png";
 import Party from "../../../assets/partying-face.png";
 import DarkMode from "../DarkMode/DarkMode";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -12,17 +12,17 @@ const Navbar = () => {
       <div className="allign_center">
         <DarkMode></DarkMode>
         <div className="allign_center navbar_links">
-          <a href="#popular">
+          <NavLink to="/popular">
             Popular <img className="navbar_emoji" src={Fire} alt="fire emoji" />
-          </a>
-          <a href="#top_rated">
+          </NavLink>
+          <NavLink to="/top-rated">
             Top Rated{" "}
             <img className="navbar_emoji" src={Star} alt="star emoji" />
-          </a>
-          <a href="#upcoming">
+          </NavLink>
+          <NavLink to="/upcoming">
             Upcoming{" "}
             <img className="navbar_emoji" src={Party} alt="party emoji" />
-          </a>
+          </NavLink>
         </div>
       </div>
     </nav>

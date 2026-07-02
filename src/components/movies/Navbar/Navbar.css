@@ -18,6 +18,17 @@
   padding: 0 15px;
 }
 
+.navbar_links a.active {
+  font-weight: 500;
+  color: #fffb05;
+  background-color: #3a6cf5;
+  padding: 5px 20px;
+  margin: 0px 20px;
+  margin-bottom: 10px;
+  border-radius: 7px;
+  border: #000000;
+}
+
 .navbar_emoji {
   width: 25px;
   height: 25px;
