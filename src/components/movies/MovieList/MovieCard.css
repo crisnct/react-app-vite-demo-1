@@ -1,0 +1,71 @@
+.movie_cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.movie_card {
+  width: 200px;
+  height: 300px;
+  margin: 15px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  position: relative;
+  transition: transform 0.5s ease-in-out;
+}
+
+.movie_card:hover {
+  transform: scale(1.1);
+  transition: transform 0.5s ease-in-out;
+}
+
+.movie_card:hover .movie_details {
+  opacity: 1;
+}
+
+.movie_poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie_details {
+  opacity: 0;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  transition: transform 0.5s ease-in-out;
+}
+
+.movie_details_heading {
+  font-size: 18px;
+  color: #ffe400;
+}
+
+.movie_date_rate {
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 5px 0;
+  color: #ffe400;
+}
+
+.card_emoji {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+.movie_description {
+  font-size: 14px;
+  font-style: italic;
+}

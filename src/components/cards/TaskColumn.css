@@ -1,10 +1,9 @@
-.task_column{
-   width: 100%;
-   display: grid;
-   grid-template-columns: 1fr;
-   align-items: center;
-   gap: 8px; /* space between icon and text */
-   background-color: #fdff6e;
+.task_column {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 8px; /* space between icon and text */
+  background-color: #92928f;
+  color: var(--body_color);
 }
-
-

@@ -1,0 +1,139 @@
+import React, { useEffect } from "react";
+import Fire from "../../../assets/fire.png";
+import Star from "../../../assets/glowing-star.png";
+import Party from "../../../assets/partying-face.png";
+import "./MovieList.css";
+import MovieCard from "./MovieCard";
+import FilterGroup from "../FilterGroup/FilterGroup";
+import _ from "lodash";
+
+const MovieList = () => {
+  const [moviesDetails, setMoviesDetails] = React.useState([]);
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+  const [minRating, setMinRating] = React.useState(0);
+  const [sort, setSort] = React.useState({
+    by: "default",
+    order: "asc",
+  });
+
+  const fetchMovies = async () => {
+    try {
+      if (!apiKey) {
+        console.warn("VITE_TMDB_API_KEY is not set. Requests may fail.");
+      }
+
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/popular?language=en-US&api_key=${apiKey}&page=1`,
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setMoviesDetails(data.results);
+      console.log("RESPONSE:", data.results);
+    } catch (error) {
+      console.error("Failed to fetch movies:", error);
+    }
+  };
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  const handleRatingFilter = (rating: number) => {
+    if (rating === minRating) {
+      setMinRating(0);
+    } else {
+      setMinRating(rating);
+    }
+  };
+  const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setSort((prevSort) => ({
+      ...prevSort,
+      [name]: value,
+    }));
+  };
+  const sortAction = (a: any, b: any): number => {
+    if (sort.by === "default") return 0;
+    if (sort.by === "release_date") {
+      const dateA = new Date(a.release_date);
+      const dateB = new Date(b.release_date);
+      return sort.order === "asc"
+        ? dateA.getTime() - dateB.getTime()
+        : dateB.getTime() - dateA.getTime();
+    }
+    if (sort.by === "vote_average") {
+      return sort.order === "asc"
+        ? a.vote_average - b.vote_average
+        : b.vote_average - a.vote_average;
+    }
+    return 0;
+  };
+
+  const visibleMovies = React.useMemo(() => {
+    const filtered = moviesDetails.filter(
+      (movie: any) => movie.vote_average >= minRating,
+    );
+    if (sort.by === "default") return filtered;
+    return _.orderBy(filtered, [sort.by], [sort.order as "asc" | "desc"]);
+  }, [moviesDetails, minRating, sort.by, sort.order]);
+
+  return (
+    <section className="allign_center movie_list">
+      <header className="allign_center movie_list_header">
+        <h2 className="allign_center movie_list_heading">
+          Popular <img className="navbar_emoji" src={Fire} alt="fire" />
+        </h2>
+        <div className="allign_center">
+          <div className="allign_center">
+            <FilterGroup
+              minRating={minRating}
+              onHandleRatingFilter={handleRatingFilter}
+              ratings={[8, 7, 6]}
+            />
+          </div>
+          <select
+            name="by"
+            id=""
+            className="movie_sorting"
+            onChange={handleSort}
+            value={sort.by}
+          >
+            <option value="default">SortBy</option>
+            <option value="release_date">Date</option>
+            <option value="vote_average">Rating</option>
+          </select>
+
+          <select
+            name="order"
+            id=""
+            className="movie_sorting"
+            onChange={handleSort}
+            value={sort.order}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+      </header>
+
+      <div className="movie_cards">
+        {visibleMovies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            title={movie.title}
+            release_date={movie.release_date}
+            vote_average={movie.vote_average}
+            overview={movie.overview.slice(0, 100) + "..."}
+            poster={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?api_key=${apiKey}`}
+            link={`https://www.themoviedb.org/movie/${movie.id}`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default MovieList;

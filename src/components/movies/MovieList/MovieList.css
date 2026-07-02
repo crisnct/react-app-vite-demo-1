@@ -1,0 +1,31 @@
+.movie_list {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  background-color: var(--body_background);
+  border-bottom: 10px solid #e6e6e6;
+  margin-bottom: 20px;
+}
+
+.movie_list_header {
+  padding: 10px 30px;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.movie_list_heading {
+  font-size: 26px;
+  color: var(--heading_color);
+}
+
+.movie_sorting {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inherit;
+  height: 30px;
+  padding: 0 5px;
+  margin: 0 10px;
+}

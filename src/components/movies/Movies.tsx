@@ -1,11 +1,13 @@
 import React from "react";
 import "./Movies.css";
+import Navbar from "./Navbar/Navbar";
+import MovieList from "./MovieList/MovieList";
 
 const Movies = () => {
   return (
     <div className="movies">
-      <nav className="navbar">Navbar content</nav>
-      <main>Main content</main>
+      <Navbar></Navbar>
+      <MovieList />
     </div>
   );
 };

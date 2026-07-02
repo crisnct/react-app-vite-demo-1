@@ -1,0 +1,15 @@
+.movie_filter {
+  list-style: none;
+  font-size: 20px;
+}
+
+.movie_filter_item {
+  padding: 5px 10px;
+  cursor: pointer;
+  color: var(--body_color);
+}
+
+.movie_filter_item.active {
+  border-bottom: 2px solid #e6e6e6;
+  font-weight: 500;
+}
