@@ -12,14 +12,14 @@ const Navbar = () => {
       <div className="allign_center">
         <DarkMode></DarkMode>
         <div className="allign_center navbar_links">
-          <a href="">
+          <a href="#popular">
             Popular <img className="navbar_emoji" src={Fire} alt="fire emoji" />
           </a>
-          <a href="">
+          <a href="#top_rated">
             Top Rated{" "}
             <img className="navbar_emoji" src={Star} alt="star emoji" />
           </a>
-          <a href="">
+          <a href="#upcoming">
             Upcoming{" "}
             <img className="navbar_emoji" src={Party} alt="party emoji" />
           </a>

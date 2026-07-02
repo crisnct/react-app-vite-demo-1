@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
-import Fire from "../../../assets/fire.png";
-import Star from "../../../assets/glowing-star.png";
-import Party from "../../../assets/partying-face.png";
 import "./MovieList.css";
 import MovieCard from "./MovieCard";
 import FilterGroup from "../FilterGroup/FilterGroup";
 import _ from "lodash";
 
-const MovieList = () => {
+interface Props {
+  type: string;
+  title: string;
+  emoji: string;
+}
+
+const MovieList = ({ type, title, emoji }: Props) => {
   const [moviesDetails, setMoviesDetails] = React.useState([]);
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [minRating, setMinRating] = React.useState(0);
@@ -23,7 +26,7 @@ const MovieList = () => {
       }
 
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?language=en-US&api_key=${apiKey}&page=1`,
+        `https://api.themoviedb.org/3/movie/${type}?language=en-US&api_key=${apiKey}&page=1`,
       );
 
       if (!response.ok) {
@@ -55,23 +58,6 @@ const MovieList = () => {
       [name]: value,
     }));
   };
-  const sortAction = (a: any, b: any): number => {
-    if (sort.by === "default") return 0;
-    if (sort.by === "release_date") {
-      const dateA = new Date(a.release_date);
-      const dateB = new Date(b.release_date);
-      return sort.order === "asc"
-        ? dateA.getTime() - dateB.getTime()
-        : dateB.getTime() - dateA.getTime();
-    }
-    if (sort.by === "vote_average") {
-      return sort.order === "asc"
-        ? a.vote_average - b.vote_average
-        : b.vote_average - a.vote_average;
-    }
-    return 0;
-  };
-
   const visibleMovies = React.useMemo(() => {
     const filtered = moviesDetails.filter(
       (movie: any) => movie.vote_average >= minRating,
@@ -81,10 +67,11 @@ const MovieList = () => {
   }, [moviesDetails, minRating, sort.by, sort.order]);
 
   return (
-    <section className="allign_center movie_list">
+    <section className="allign_center movie_list" id={type}>
       <header className="allign_center movie_list_header">
         <h2 className="allign_center movie_list_heading">
-          Popular <img className="navbar_emoji" src={Fire} alt="fire" />
+          {title}{" "}
+          <img className="navbar_emoji" src={emoji} alt="${emoji} icon" />
         </h2>
         <div className="allign_center">
           <div className="allign_center">

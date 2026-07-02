@@ -21,6 +21,10 @@ body {
   color: var(--body_color);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;
